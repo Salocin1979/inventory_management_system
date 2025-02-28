@@ -1,0 +1,75 @@
+<%= form_with(model: receipt, local: true, class: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4") do |form| %>
+  <% if receipt.errors.any? %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+      <h2><%= pluralize(receipt.errors.count, "error") %> prohibited this receipt from being saved:</h2>
+      <ul>
+        <% receipt.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+    <div class="mb-4">
+      <%= form.label :receipt_number, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.text_field :receipt_number, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :order_id, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.collection_select :order_id, @orders, :id, :order_number, { include_blank: "Select Order" }, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :vendor_id, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.collection_select :vendor_id, @vendors, :id, :name, { include_blank: "Select Vendor" }, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :cost_center_id, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.collection_select :cost_center_id, @cost_centers, :id, :name, { include_blank: "Select Cost Center" }, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :receipt_date, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.date_field :receipt_date, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :status, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.select :status, ['pending', 'received', 'rejected'], { include_blank: "Select Status" }, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :notes, class: "block text-gray-700 text-sm font-bold mb-2" %>
+    <%= form.text_area :notes, rows: 4, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+  </div>
+
+  <div class="mt-8 mb-4">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Receipt Lines</h3>
+
+    <div id="receipt-lines">
+      <%= form.fields_for :receipt_lines do |receipt_line| %>
+        <%= render 'receipt_line_fields', f: receipt_line %>
+      <% end %>
+
+      <div class="links mt-4">
+        <%= link_to_add_association 'Add Line Item', form, :receipt_lines,
+            class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline",
+            data: { association_insertion_node: '#receipt-lines', association_insertion_method: 'append' } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :total_amount, class: "block text-gray-700 text-sm font-bold mb-2" %>
+    <%= form.number_field :total_amount, step: '0.01', class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+  </div>
+
+  <div class="flex items-center justify-between mt-6">
+    <%= form.submit class: "bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+    <%= link_to "Cancel", receipts_path, class: "text-indigo-600 hover:text-indigo-800" %>
+  </div>
+<% end %>

@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  receipt_number: MyString
+  order: one
+  vendor: one
+  cost_center: one
+  received_by: one
+  receipt_date: 2025-02-28 16:32:51
+  status: MyString
+  notes: MyText
+  total_amount: 9.99
+
+two:
+  receipt_number: MyString
+  order: two
+  vendor: two
+  cost_center: two
+  received_by: two
+  receipt_date: 2025-02-28 16:32:51
+  status: MyString
+  notes: MyText
+  total_amount: 9.99

@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  sku: MyString
+  barcode: MyString
+  category: one
+  warehouse: one
+  current_stock: 1
+  minimum_stock: 1
+  reorder_point: 1
+  unit_cost: 9.99
+
+two:
+  name: MyString
+  description: MyText
+  sku: MyString
+  barcode: MyString
+  category: two
+  warehouse: two
+  current_stock: 1
+  minimum_stock: 1
+  reorder_point: 1
+  unit_cost: 9.99

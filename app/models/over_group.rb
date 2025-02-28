@@ -1,0 +1,2 @@
+class OverGroup < ApplicationRecord
+end

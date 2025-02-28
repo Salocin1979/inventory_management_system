@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  abbreviation: MyString
+  is_base: false
+  base_unit: one
+  conversion_factor: 9.99
+
+two:
+  name: MyString
+  abbreviation: MyString
+  is_base: false
+  base_unit: two
+  conversion_factor: 9.99

@@ -1,0 +1,39 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-2xl font-bold">Receipts</h1>
+    <%= link_to "New Receipt", new_receipt_path, class: "bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white">
+      <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="py-3 px-4 text-left">Receipt Number</th>
+          <th class="py-3 px-4 text-left">Order</th>
+          <th class="py-3 px-4 text-left">Vendor</th>
+          <th class="py-3 px-4 text-left">Date</th>
+          <th class="py-3 px-4 text-left">Status</th>
+          <th class="py-3 px-4 text-left">Total Amount</th>
+          <th class="py-3 px-4 text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-700">
+        <% @receipts.each do |receipt| %>
+          <tr class="border-b hover:bg-gray-100">
+            <td class="py-3 px-4"><%= receipt.receipt_number %></td>
+            <td class="py-3 px-4"><%= receipt.order.order_number rescue "N/A" %></td>
+            <td class="py-3 px-4"><%= receipt.vendor.name rescue "N/A" %></td>
+            <td class="py-3 px-4"><%= receipt.receipt_date.strftime("%Y-%m-%d") rescue "N/A" %></td>
+            <td class="py-3 px-4"><%= receipt.status %></td>
+            <td class="py-3 px-4"><%= number_to_currency(receipt.total_amount) %></td>
+            <td class="py-3 px-4">
+              <%= link_to "View", receipt_path(receipt), class: "text-blue-600 hover:text-blue-800 mr-2" %>
+              <%= link_to "Edit", edit_receipt_path(receipt), class: "text-yellow-600 hover:text-yellow-800 mr-2" %>
+              <%= link_to "Delete", receipt_path(receipt), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-600 hover:text-red-800" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

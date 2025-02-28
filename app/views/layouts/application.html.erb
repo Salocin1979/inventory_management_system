@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Inventory Management System</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag "application", defer: true %>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+      <div class="container">
+        <%= link_to "Inventory Management", root_path, class: "navbar-brand" %>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <%= link_to "Dashboard", dashboard_path, class: "nav-link #{current_page?(dashboard_path) ? 'active' : ''}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Items", items_path, class: "nav-link #{controller_name == 'items' ? 'active' : ''}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Categories", categories_path, class: "nav-link #{controller_name == 'categories' ? 'active' : ''}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Warehouses", warehouses_path, class: "nav-link #{controller_name == 'warehouses' ? 'active' : ''}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Suppliers", suppliers_path, class: "nav-link #{controller_name == 'suppliers' ? 'active' : ''}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Transactions", stock_transactions_path, class: "nav-link #{controller_name == 'stock_transactions' ? 'active' : ''}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Reports", reports_path, class: "nav-link #{controller_name == 'reports' ? 'active' : ''}" %>
+            </li>
+          </ul>
+          <div class="d-flex">
+            <% if user_signed_in? %>
+              <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  <%= current_user.email %>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                  <li><%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item" %></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
+                </ul>
+              </div>
+            <% else %>
+              <%= link_to "Sign In", new_user_session_path, class: "btn btn-light" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <% if notice %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= notice %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
+      <% if alert %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= alert %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </div>
+
+    <footer class="footer mt-5 py-3 bg-light">
+      <div class="container text-center">
+        <span class="text-muted">Inventory Management System &copy; <%= Date.today.year %></span>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="mb-8">
+    <h1 class="text-2xl font-bold">Receipt: <%= @receipt.receipt_number %></h1>
+    <div class="mt-2">
+      <%= link_to "Back to Receipts", receipts_path, class: "text-indigo-600 mr-4" %>
+      <%= link_to "Edit Receipt", edit_receipt_path(@receipt), class: "text-indigo-600" %>
+    </div>
+  </div>
+
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
+    <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Receipt Details</h3>
+    </div>
+    <div class="px-4 py-5 sm:px-6">
+      <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+        <div class="sm:col-span-1">
+          <dt class="text-sm font-medium text-gray-500">Receipt Number</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @receipt.receipt_number %></dd>
+        </div>
+        <div class="sm:col-span-1">
+          <dt class="text-sm font-medium text-gray-500">Order</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @receipt.order.order_number rescue "N/A" %></dd>
+        </div>
+        <div class="sm:col-span-1">
+          <dt class="text-sm font-medium text-gray-500">Vendor</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @receipt.vendor.name rescue "N/A" %></dd>
+        </div>
+        <div class="sm:col-span-1">
+          <dt class="text-sm font-medium text-gray-500">Cost Center</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @receipt.cost_center.name rescue "N/A" %></dd>
+        </div>
+        <div class="sm:col-span-1">
+          <dt class="text-sm font-medium text-gray-500">Receipt Date</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @receipt.receipt_date.strftime("%Y-%m-%d") rescue "N/A" %></dd>
+        </div>
+        <div class="sm:col-span-1">
+          <dt class="text-sm font-medium text-gray-500">Status</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @receipt.status %></dd>
+        </div>
+        <div class="sm:col-span-1">
+          <dt class="text-sm font-medium text-gray-500">Total Amount</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= number_to_currency(@receipt.total_amount) %></dd>
+        </div>
+        <div class="sm:col-span-1">
+          <dt class="text-sm font-medium text-gray-500">Received By</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @receipt.received_by.email rescue "N/A" %></dd>
+        </div>
+        <div class="sm:col-span-2">
+          <dt class="text-sm font-medium text-gray-500">Notes</dt>
+          <dd class="mt-1 text-sm text-gray-900"><%= @receipt.notes || "No notes" %></dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Receipt Lines</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit Price</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit of Measure</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @receipt_lines.each do |line| %>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= line.item.name rescue "N/A" %></td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= line.quantity %></td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= number_to_currency(line.price) %></td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= line.unit_of_measure.name rescue "N/A" %></td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= number_to_currency(line.total) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

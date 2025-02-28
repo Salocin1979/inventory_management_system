@@ -1,0 +1,88 @@
+<!-- app/views/orders/_form.html.erb -->
+<%= form_with(model: order, local: true, class: "bg-white shadow-md rounded-lg p-6") do |form| %>
+  <% if order.errors.any? %>
+    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">There <%= order.errors.count == 1 ? 'is' : 'are' %> <%= pluralize(order.errors.count, "error") %> with this order:</h3>
+          <div class="mt-2 text-sm text-red-700">
+            <ul class="list-disc pl-5 space-y-1">
+              <% order.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Order Header -->
+  <div class="mb-8">
+    <h2 class="text-lg font-medium text-gray-900 mb-4">Order Information</h2>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <div class="col-span-1">
+        <div class="mb-4">
+          <%= form.label :order_number, class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.text_field :order_number, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+        </div>
+      </div>
+
+      <div class="col-span-1">
+        <div class="mb-4">
+          <%= form.label :vendor_id, class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.collection_select :vendor_id, @vendors, :id, :name, { include_blank: "Select Vendor" }, class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+      </div>
+
+      <div class="col-span-1">
+        <div class="mb-4">
+          <%= form.label :cost_center_id, class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.collection_select :cost_center_id, @cost_centers, :id, :name, { include_blank: "Select Cost Center" }, class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <div class="col-span-1">
+        <div class="mb-4">
+          <%= form.label :order_date, class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.date_field :order_date, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+        </div>
+      </div>
+
+      <div class="col-span-1">
+        <div class="mb-4">
+          <%= form.label :expected_delivery_date, class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.date_field :expected_delivery_date, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+        </div>
+      </div>
+
+      <div class="col-span-1">
+        <div class="mb-4">
+          <%= form.label :status, class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.select :status, ['draft', 'pending', 'approved', 'completed', 'cancelled'], {}, class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <div class="col-span-1">
+        <div class="mb-4">
+          <%= form.label :order_cycle_id, class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.collection_select :order_cycle_id, @order_cycles, :id, :name, { include_blank: "Select Order Cycle" }, class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+      </div>
+
+      <% if form.object.new_record? %>
+        <!-- Don't show approved_by field for new orders -->
+      <% else %>
+        <div class="col-span-1">
+          <div class="mb-4">
+            <%= form.label :approved_by_id, class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= form.collection_select :approved_by_id, @users, :i

@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  receipt: one
+  order_line: one
+  item: one
+  quantity: 9.99
+  price: 9.99
+  unit_of_measure: one
+  total: 9.99
+
+two:
+  receipt: two
+  order_line: two
+  item: two
+  quantity: 9.99
+  price: 9.99
+  unit_of_measure: two
+  total: 9.99

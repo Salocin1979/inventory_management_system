@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item: one
+  cost_center: one
+  storage_location: one
+  quantity: 9.99
+
+two:
+  item: two
+  cost_center: two
+  storage_location: two
+  quantity: 9.99

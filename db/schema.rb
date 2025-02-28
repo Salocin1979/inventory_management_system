@@ -1,0 +1,283 @@
+# This file is auto-generated from the current state of the database. Instead
+# of editing this file, please use the migrations feature of Active Record to
+# incrementally modify your database, and then regenerate this schema definition.
+#
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
+#
+# It's strongly recommended that you check this file into your version control system.
+
+ActiveRecord::Schema[8.0].define(version: 2025_02_28_125120) do
+  create_table "base_units", force: :cascade do |t|
+    t.string "name"
+    t.string "abbreviation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cost_centers", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
+    t.text "description"
+    t.string "location"
+    t.boolean "active"
+    t.integer "parent_cost_center_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_cost_center_id"], name: "index_cost_centers_on_parent_cost_center_id"
+  end
+
+  create_table "inventories", force: :cascade do |t|
+    t.integer "item_id", null: false
+    t.integer "cost_center_id", null: false
+    t.integer "storage_location_id", null: false
+    t.decimal "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cost_center_id"], name: "index_inventories_on_cost_center_id"
+    t.index ["item_id"], name: "index_inventories_on_item_id"
+    t.index ["storage_location_id"], name: "index_inventories_on_storage_location_id"
+  end
+
+  create_table "item_groups", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "major_group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["major_group_id"], name: "index_item_groups_on_major_group_id"
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "sku"
+    t.string "barcode"
+    t.integer "category_id", null: false
+    t.integer "warehouse_id", null: false
+    t.integer "current_stock"
+    t.integer "minimum_stock"
+    t.integer "reorder_point"
+    t.decimal "unit_cost"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "supplier_id", null: false
+    t.index ["category_id"], name: "index_items_on_category_id"
+    t.index ["supplier_id"], name: "index_items_on_supplier_id"
+    t.index ["warehouse_id"], name: "index_items_on_warehouse_id"
+  end
+
+  create_table "major_groups", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "over_group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["over_group_id"], name: "index_major_groups_on_over_group_id"
+  end
+
+  create_table "order_cycles", force: :cascade do |t|
+    t.string "name"
+    t.integer "vendor_id", null: false
+    t.string "frequency"
+    t.integer "day_of_week"
+    t.integer "day_of_month"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vendor_id"], name: "index_order_cycles_on_vendor_id"
+  end
+
+  create_table "order_lines", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.integer "item_id", null: false
+    t.decimal "quantity"
+    t.decimal "price"
+    t.integer "unit_of_measure_id", null: false
+    t.decimal "total"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_order_lines_on_item_id"
+    t.index ["order_id"], name: "index_order_lines_on_order_id"
+    t.index ["unit_of_measure_id"], name: "index_order_lines_on_unit_of_measure_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "order_number"
+    t.integer "vendor_id", null: false
+    t.integer "cost_center_id", null: false
+    t.integer "created_by_id"
+    t.integer "approved_by_id"
+    t.datetime "order_date"
+    t.datetime "expected_delivery_date"
+    t.string "status"
+    t.text "notes"
+    t.decimal "total_amount"
+    t.integer "order_cycle_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["approved_by_id"], name: "index_orders_on_approved_by_id"
+    t.index ["cost_center_id"], name: "index_orders_on_cost_center_id"
+    t.index ["created_by_id"], name: "index_orders_on_created_by_id"
+    t.index ["order_cycle_id"], name: "index_orders_on_order_cycle_id"
+    t.index ["vendor_id"], name: "index_orders_on_vendor_id"
+  end
+
+  create_table "over_groups", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "receipt_lines", force: :cascade do |t|
+    t.integer "receipt_id", null: false
+    t.integer "order_line_id", null: false
+    t.integer "item_id", null: false
+    t.decimal "quantity"
+    t.decimal "price"
+    t.integer "unit_of_measure_id", null: false
+    t.decimal "total"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_receipt_lines_on_item_id"
+    t.index ["order_line_id"], name: "index_receipt_lines_on_order_line_id"
+    t.index ["receipt_id"], name: "index_receipt_lines_on_receipt_id"
+    t.index ["unit_of_measure_id"], name: "index_receipt_lines_on_unit_of_measure_id"
+  end
+
+  create_table "receipts", force: :cascade do |t|
+    t.string "receipt_number"
+    t.integer "order_id", null: false
+    t.integer "vendor_id", null: false
+    t.integer "cost_center_id", null: false
+    t.integer "received_by_id"
+    t.datetime "receipt_date"
+    t.string "status"
+    t.text "notes"
+    t.decimal "total_amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cost_center_id"], name: "index_receipts_on_cost_center_id"
+    t.index ["order_id"], name: "index_receipts_on_order_id"
+    t.index ["received_by_id"], name: "index_receipts_on_received_by_id"
+    t.index ["vendor_id"], name: "index_receipts_on_vendor_id"
+  end
+
+  create_table "stock_transactions", force: :cascade do |t|
+    t.integer "item_id", null: false
+    t.string "transaction_type"
+    t.integer "quantity"
+    t.decimal "unit_price"
+    t.decimal "total_price"
+    t.string "reference_number"
+    t.text "notes"
+    t.integer "supplier_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_stock_transactions_on_item_id"
+    t.index ["supplier_id"], name: "index_stock_transactions_on_supplier_id"
+    t.index ["user_id"], name: "index_stock_transactions_on_user_id"
+  end
+
+  create_table "storage_locations", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "cost_center_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cost_center_id"], name: "index_storage_locations_on_cost_center_id"
+  end
+
+  create_table "suppliers", force: :cascade do |t|
+    t.string "name"
+    t.string "contact_person"
+    t.string "email"
+    t.string "phone"
+    t.text "address"
+    t.string "tax_id"
+    t.string "payment_terms"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "unit_of_measures", force: :cascade do |t|
+    t.string "name"
+    t.string "abbreviation"
+    t.boolean "is_base"
+    t.integer "base_unit_id", null: false
+    t.decimal "conversion_factor"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["base_unit_id"], name: "index_unit_of_measures_on_base_unit_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "vendors", force: :cascade do |t|
+    t.string "name"
+    t.string "contact_person"
+    t.string "email"
+    t.string "phone"
+    t.text "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "warehouses", force: :cascade do |t|
+    t.string "name"
+    t.string "location"
+    t.string "manager_name"
+    t.string "contact_email"
+    t.string "contact_phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "cost_centers", "cost_centers", column: "parent_cost_center_id"
+  add_foreign_key "inventories", "cost_centers"
+  add_foreign_key "inventories", "items"
+  add_foreign_key "item_groups", "major_groups"
+  add_foreign_key "items", "categories"
+  add_foreign_key "items", "suppliers"
+  add_foreign_key "items", "warehouses"
+  add_foreign_key "major_groups", "over_groups"
+  add_foreign_key "order_lines", "items"
+  add_foreign_key "order_lines", "orders"
+  add_foreign_key "order_lines", "unit_of_measures"
+  add_foreign_key "orders", "cost_centers"
+  add_foreign_key "orders", "order_cycles"
+  add_foreign_key "receipt_lines", "items"
+  add_foreign_key "receipt_lines", "order_lines"
+  add_foreign_key "receipt_lines", "receipts"
+  add_foreign_key "receipt_lines", "unit_of_measures"
+  add_foreign_key "receipts", "cost_centers"
+  add_foreign_key "receipts", "orders"
+  add_foreign_key "stock_transactions", "items"
+  add_foreign_key "stock_transactions", "suppliers"
+  add_foreign_key "stock_transactions", "users"
+  add_foreign_key "storage_locations", "cost_centers"
+end

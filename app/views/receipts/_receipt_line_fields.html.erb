@@ -1,0 +1,43 @@
+<div class="nested-fields bg-gray-50 p-4 mb-4 rounded border">
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-5">
+    <div>
+      <%= f.label :item_id, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= f.collection_select :item_id, Item.all, :id, :name, { include_blank: "Select Item" }, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+
+    <div>
+      <%= f.label :quantity, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= f.number_field :quantity, min: 0, step: 0.01, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline js-quantity" %>
+    </div>
+
+    <div>
+      <%= f.label :price, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= f.number_field :price, min: 0, step: 0.01, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline js-price" %>
+    </div>
+
+    <div>
+      <%= f.label :unit_of_measure_id, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= f.collection_select :unit_of_measure_id, UnitOfMeasure.all, :id, :name, { include_blank: "Select UOM" }, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+
+    <div class="flex items-end">
+      <%= link_to_remove_association "Remove", f, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <div class="flex items-center">
+      <%= f.label :total, class: "block text-gray-700 text-sm font-bold mr-2" %>
+      <%= f.number_field :total, min: 0, step: 0.01, class: "shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline js-line-total", readonly: true %>
+    </div>
+
+    <% if f.object.order_line_id? %>
+      <%= f.hidden_field :order_line_id %>
+    <% else %>
+      <div class="mt-2">
+        <%= f.label :order_line_id, class: "block text-gray-700 text-sm font-bold mb-2" %>
+        <%= f.collection_select :order_line_id, OrderLine.all, :id, :id, { include_blank: "Select Order Line" }, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      </div>
+    <% end %>
+  </div>
+</div>
