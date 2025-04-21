@@ -45,7 +45,7 @@ gem 'devise'
 # Pagination
 gem 'will_paginate'
 # Bootstrap for UI
-gem 'bootstrap', '~> 5.1.3'
+gem 'bootstrap', '~> 5.3.5'
 # jQuery for Bootstrap JavaScript components
 gem 'jquery-rails'
 # ChartsJS for data visualization
