@@ -7,4 +7,4 @@ pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin "bootstrap", to: "bootstrap.esm.js" # Pin ES Module version
 pin "chartkick", to: "chartkick.js"
-pin "chart.js", to: "chart.js"
+pin "chart.js", to: "Chart.bundle.js" # Use Chart.bundle.js

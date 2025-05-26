@@ -14,4 +14,4 @@
 
 // Link Chartkick and Chart.js for importmap
 //= link chartkick.js
-//= link chart.js
+//= link Chart.bundle.js // Use Chart.bundle.js
