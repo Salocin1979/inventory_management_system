@@ -10,4 +10,4 @@
 //= link_tree ../../javascript/controllers .js
 
 // Link Bootstrap JS bundle for importmap
-//= link bootstrap.bundle.min.js
+//= link bootstrap.js // Standard link for bootstrap gem JS
