@@ -17,5 +17,6 @@ $primary: #962800;
 // For now, let's start with $primary.
 // $blue: #962800;
 
-// @import "bootstrap"; // Bootstrap import commented out for testing reliance on other styles
+@import "bootstrap"; // Re-enable Bootstrap for Devise page styling
 // @import "path/to/nonexistent/directory";
+@import "devise_custom"; // Import custom Devise styles

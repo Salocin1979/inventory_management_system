@@ -1,0 +1,133 @@
+// Custom styles for Devise pages
+
+// Color Variables
+$devise-bg-dark: #333333;
+$devise-container-bg-dark: #444444;
+$devise-text-light: #f8f9fa; // Using Bootstrap's light gray for text
+$devise-primary-accent: #962800; // Project's primary red
+
+// Apply to a wrapper for Devise session new page
+.devise-sessions-new-page {
+  min-height: 100vh; // Ensure full viewport height
+  background-color: $devise-bg-dark;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0; // Add some padding for smaller viewports
+
+  /* TODO: Add desired background image for login page here */
+  /* background-image: url(<%= asset_path 'your-image-filename.jpg' %>); */
+  /* background-size: cover; */
+  /* background-position: center; */
+
+  .login-container {
+    background-color: $devise-container-bg-dark;
+    padding: 2rem 2.5rem;
+    border-radius: 0.5rem; // Softer, modern look
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 450px; // Max width for the form container
+
+    h2 {
+      color: $devise-text-light;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 300; // Lighter font weight for modern feel
+    }
+
+    .form-label {
+      color: $devise-text-light;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+      // Assuming Bootstrap 5 form styling is available.
+      // Default Bootstrap forms should adapt, but can override if needed.
+      // For dark theme, Bootstrap's default might be light inputs.
+      // If using Bootstrap 5.3+ data-bs-theme="dark" on a parent can also work.
+      // For now, let's assume default BS styling is okay or will be handled by BS variables.
+      // Example of custom styling if needed:
+      // background-color: lighten($devise-container-bg-dark, 5%);
+      // border: 1px solid lighten($devise-container-bg-dark, 10%);
+      // color: $devise-text-light;
+      // &:focus {
+      //   background-color: lighten($devise-container-bg-dark, 10%);
+      //   border-color: $devise-primary-accent;
+      //   color: $devise-text-light;
+      // }
+      // &::placeholder {
+      //  color: darken($devise-text-light, 30%);
+      // }
+    }
+    
+    .form-check-label {
+      color: $devise-text-light; // For "Remember me"
+    }
+
+    .actions {
+      margin-top: 1.5rem;
+      .btn-primary {
+        // This should already be styled by $primary: #962800 in application.scss
+        // Ensure text color contrasts well, Bootstrap usually handles this.
+        // e.g. color: white; if not automatically handled.
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+      }
+    }
+
+    .devise-shared-links {
+      margin-top: 1.5rem;
+      text-align: center;
+      a {
+        color: $devise-primary-accent;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      // If links are not in a div with this class, target them more directly
+      // For example, if they are direct children of login-container:
+      // > a { ... }
+      // Or if they are in a simple div:
+      // div > a { ... }
+    }
+  }
+}
+
+// If Devise uses a specific layout that adds a class to body, target that:
+// body.devise-layout-class {
+//   .devise-sessions-new-page { ... }
+// }
+// Otherwise, the wrapper div in the view is necessary.
+
+// Ensure placeholder text is visible
+// This is a general rule, might need to be more specific if form-controls are heavily customized
+input::placeholder {
+  color: #adb5bd; // A light grey, ensure it's visible on dark/light input backgrounds
+}
+textarea::placeholder {
+  color: #adb5bd;
+}
+
+// Bootstrap specific overrides for dark theme on forms if needed:
+// This is an example if data-bs-theme="dark" is not used on a higher level
+// .form-control-dark-custom {
+//   background-color: #2b2f32;
+//   border-color: #495057;
+//   color: #f8f9fa;
+//   &:focus {
+//     border-color: $devise-primary-accent;
+//     box-shadow: 0 0 0 0.25rem rgba($devise-primary-accent, 0.25);
+//   }
+//   &::placeholder {
+//     color: #6c757d;
+//   }
+// }
+
+// .form-check-input-dark-custom {
+//   &:checked {
+//     background-color: $devise-primary-accent;
+//     border-color: $devise-primary-accent;
+//   }
+// }

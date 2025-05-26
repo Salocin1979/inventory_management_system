@@ -3,6 +3,66 @@
   Dashboard
 <% end %>
 
+<div id="dashboardCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#dashboardCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#dashboardCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#dashboardCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner rounded">
+    <!-- Slide 1: Total Inventory Value -->
+    <div class="carousel-item active">
+      <div class="d-block w-100 p-5 bg-white shadow-sm rounded text-center text-dark">
+        <h5 class="text-muted">Total Inventory Value</h5>
+        <p class="display-4 fw-bold" style="color: #962800;"><%= number_to_currency(@total_inventory_value) %></p>
+        <p class="text-muted">Current valuation of all items in stock.</p>
+      </div>
+    </div>
+    <!-- Slide 2: Key Metrics -->
+    <div class="carousel-item">
+      <div class="d-block w-100 p-5 bg-white shadow-sm rounded text-center text-dark">
+        <h5 class="text-muted">Key Performance Metrics</h5>
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <p class="h4 fw-semibold">Inventory Turnover</p>
+            <p class="display-6"><%= @inventory_turnover %> <span class="h5 text-muted">times</span></p>
+          </div>
+          <div class="col-md-6">
+            <p class="h4 fw-semibold">Avg. Order Cycle Time</p>
+            <p class="display-6"><%= @order_cycle_time %> <span class="h5 text-muted">days</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Slide 3: Alerts & Activity -->
+    <div class="carousel-item">
+      <div class="d-block w-100 p-5 bg-white shadow-sm rounded text-center text-dark">
+        <h5 class="text-muted">Operational Overview</h5>
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <p class="h4 fw-semibold">Low Stock Items</p>
+            <p class="display-6"><%= @low_stock_items.try(:count) || 0 %></p>
+            <%# Consider adding a link: link_to "View Items", items_path(filter: "low_stock"), class: "btn btn-sm btn-outline-primary mt-2" %>
+          </div>
+          <div class="col-md-6">
+            <p class="h4 fw-semibold">Recent Transactions</p>
+            <p class="display-6"><%= @recent_transactions.try(:count) || 0 %></p>
+            <%# Consider adding a link: link_to "View Transactions", transactions_path, class: "btn btn-sm btn-outline-primary mt-2" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#dashboardCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#dashboardCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
   <!-- KPI Card: Total Inventory Value -->
   <div class="bg-white overflow-hidden shadow rounded-lg">
