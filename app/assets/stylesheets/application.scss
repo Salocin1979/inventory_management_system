@@ -8,5 +8,14 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
-@import "bootstrap";
+
+// Define custom Bootstrap variables before importing Bootstrap
+$primary: #962800;
+
+// If the theme heavily relies on shades of blue directly,
+// we might need to override $blue as well or specific theme colors.
+// For now, let's start with $primary.
+// $blue: #962800;
+
+// @import "bootstrap"; // Bootstrap import commented out for testing reliance on other styles
 // @import "path/to/nonexistent/directory";

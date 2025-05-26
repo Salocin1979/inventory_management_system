@@ -8,7 +8,7 @@
   <div class="bg-white overflow-hidden shadow rounded-lg">
     <div class="px-4 py-5 sm:p-6">
       <div class="flex items-center">
-        <div class="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+        <div class="flex-shrink-0 bg-primary rounded-md p-3">
           <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
@@ -58,7 +58,7 @@
   <div class="bg-white overflow-hidden shadow rounded-lg">
     <div class="px-4 py-5 sm:p-6">
       <div class="flex items-center">
-        <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
+        <div class="flex-shrink-0 bg-primary rounded-md p-3">
           <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
@@ -92,7 +92,7 @@
       <% if @low_stock_items.any? %>
         <div class="flow-root">
           <ul class="-my-5 divide-y divide-gray-200">
-            <% @low_stock_items.each do |item| %>
+            <% @low_stock_items.each do |low_stock_entry| %>
               <li class="py-4">
                 <div class="flex items-center space-x-4">
                   <div class="flex-shrink-0">
@@ -104,15 +104,15 @@
                   </div>
                   <div class="flex-1 min-w-0">
                     <p class="text-sm font-medium text-gray-900 truncate">
-                      <%= item.name %>
+                      <%= low_stock_entry.item.name %>
                     </p>
                     <p class="text-sm text-gray-500 truncate">
-                      <%= item.code %> | <%= item.item_group&.name %>
+                      <%= low_stock_entry.item.code %> | <%= low_stock_entry.category_name %>
                     </p>
                   </div>
                   <div>
                     <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">
-                      Stock: <%= item.current_stock(current_cost_center.id) %>/<%= item.reorder_point %>
+                      Stock: <%= low_stock_entry.current_quantity %>/<%= low_stock_entry.reorder_point %>
                     </span>
                   </div>
                 </div>
@@ -188,7 +188,7 @@
           <p class="mt-1 text-sm text-gray-500">
             Get started by creating a new receipt.
           </p>
-          <%= link_to "New Receipt", new_receipt_path, class: "mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          <%= link_to "New Receipt", new_receipt_path, class: "mt-6 btn btn-primary" %>
         </div>
       <% end %>
     </div>
@@ -247,7 +247,7 @@
           <p class="mt-1 text-sm text-gray-500">
             All orders have been processed.
           </p>
-          <%= link_to "New Order", new_order_path, class: "mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          <%= link_to "New Order", new_order_path, class: "mt-6 btn btn-primary" %>
         </div>
       <% end %>
     </div>
@@ -261,7 +261,8 @@
       </h3>
     </div>
     <div class="p-4 h-80">
-      <%= pie_chart @inventory_by_category, donut: true, colors: ["#4F46E5", "#7C3AED", "#EC4899", "#F59E0B", "#10B981", "#3B82F6", "#6366F1"] %>
+      <%# The colors for charts can be updated here if needed, or by setting Chartkick.options %>
+      <%= pie_chart @inventory_by_category, donut: true, colors: ['#962800', "#7C3AED", "#EC4899", "#F59E0B", "#10B981", "#3B82F6", "#6366F1"] %>
     </div>
   </div>
 </div>
@@ -274,10 +275,11 @@
       </h3>
     </div>
     <div class="p-4 h-96">
+      <%# The colors for charts can be updated here if needed, or by setting Chartkick.options %>
       <%= column_chart [
         {name: "Incoming", data: @transactions_history[:labels].zip(@transactions_history[:incoming]).to_h},
         {name: "Outgoing", data: @transactions_history[:labels].zip(@transactions_history[:outgoing].map(&:-@)).to_h}
-      ], stacked: true, colors: ["#10B981", "#EF4444"] %>
+      ], stacked: true, colors: ["#10B981", '#962800'] %>
     </div>
   </div>
 </div>
