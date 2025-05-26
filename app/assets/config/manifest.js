@@ -11,3 +11,7 @@
 
 // Link Bootstrap JS bundle for importmap
 //= link bootstrap.esm.js // Link ES Module version
+
+// Link Chartkick and Chart.js for importmap
+//= link chartkick.js
+//= link chart.js
