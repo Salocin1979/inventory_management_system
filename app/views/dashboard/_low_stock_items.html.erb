@@ -1,0 +1,15 @@
+<div class="bg-white shadow rounded-lg p-4">
+  <h2 class="text-xl font-semibold mb-2">Low Stock Items</h2>
+  <% if items.present? %>
+    <ul class="divide-y divide-gray-200">
+      <% items.each do |item| %>
+        <li class="py-2 flex justify-between">
+          <span><%= item.name %></span>
+          <span class="text-red-600 font-bold"><%= item.stock_quantity %></span>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-gray-500">All items are sufficiently stocked.</p>
+  <% end %>
+</div>

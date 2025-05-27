@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get "receipts/edit"
   get "receipts/update"
   get "receipts/destroy"
-  get "transactions/index"
+  get "transactions", to: "transactions#index"  # This creates transactions_path
   get "vendors/index"
   get "vendors/show"
   get "vendors/new"
@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get "item_groups/edit"
   get "item_groups/update"
   get "item_groups/destroy"
+  get '/.well-known/*path', to: proc { [204, {}, ['']] }
 devise_for :users
 
   root 'dashboard#index'
@@ -46,6 +47,7 @@ devise_for :users
   resources :receipts
   resources :orders do
   resources :order_lines, only: [:create, :destroy]
+  resources :transactions
   end
 
   resources :stock_transactions, except: [:edit, :update, :destroy]

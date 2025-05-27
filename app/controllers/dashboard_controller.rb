@@ -3,15 +3,15 @@ class DashboardController < ApplicationController
   def index
     @cost_center = current_cost_center
 
-    # Basic KPIs
+    # Basic KPIs - Use the working methods you already have
     @total_inventory_value = calculate_total_inventory_value
-    @inventory_turnover = 0 # Placeholder
-    @order_cycle_time = 0   # Placeholder
+    @inventory_turnover = calculate_turnover
+    @avg_order_cycle = calculate_avg_cycle_time
 
-    # Dashboard sections
+    # Dashboard sections - Use the working methods you already have
     @low_stock_items = fetch_low_stock_items
+    @recent_transactions = fetch_recent_receipts # Use receipts instead of StockTransaction
     @pending_orders = fetch_pending_orders
-    @recent_transactions = fetch_recent_receipts
 
     # Chart data
     @inventory_by_category = calculate_inventory_by_category
@@ -38,6 +38,25 @@ class DashboardController < ApplicationController
              .sum('inventories.quantity * items.unit_cost')
   rescue StandardError => e
     Rails.logger.error "Error calculating total inventory value: #{e.message}"
+    0
+  end
+
+  # Add these missing methods that your original code was trying to call
+  def calculate_turnover
+    # Placeholder - implement based on your business logic
+    # This could be cost of goods sold / average inventory value
+    0
+  rescue StandardError => e
+    Rails.logger.error "Error calculating inventory turnover: #{e.message}"
+    0
+  end
+
+  def calculate_avg_cycle_time
+    # Placeholder - implement based on your business logic
+    # This could be average time from order to receipt
+    0
+  rescue StandardError => e
+    Rails.logger.error "Error calculating average cycle time: #{e.message}"
     0
   end
 

@@ -1,0 +1,18 @@
+<div class="card bg-white shadow p-4 rounded-2xl mt-4">
+  <h2 class="text-xl font-semibold mb-2">Recent Transactions</h2>
+
+  <% if transactions.any? %>
+    <ul class="divide-y divide-gray-200">
+      <% transactions.each do |transaction| %>
+        <li class="py-2">
+          <div class="flex justify-between">
+            <span><%= transaction.item.name %> - <%= transaction.transaction_type %></span>
+            <span><%= transaction.created_at.strftime("%d %b %Y") %></span>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-gray-500">No recent transactions found.</p>
+  <% end %>
+</div>

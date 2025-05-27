@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_28_125120) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_27_072806) do
   create_table "base_units", force: :cascade do |t|
     t.string "name"
     t.string "abbreviation"
@@ -214,6 +214,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_125120) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "transactions", force: :cascade do |t|
+    t.integer "item_id", null: false
+    t.integer "quantity"
+    t.decimal "cost"
+    t.string "transaction_type"
+    t.integer "cost_center_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cost_center_id"], name: "index_transactions_on_cost_center_id"
+    t.index ["item_id"], name: "index_transactions_on_item_id"
+  end
+
   create_table "unit_of_measures", force: :cascade do |t|
     t.string "name"
     t.string "abbreviation"
@@ -280,4 +292,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_125120) do
   add_foreign_key "stock_transactions", "suppliers"
   add_foreign_key "stock_transactions", "users"
   add_foreign_key "storage_locations", "cost_centers"
+  add_foreign_key "transactions", "cost_centers"
+  add_foreign_key "transactions", "items"
 end

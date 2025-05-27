@@ -3,24 +3,27 @@
   Dashboard
 <% end %>
 
+<!-- Carousel -->
 <div id="dashboardCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
   <div class="carousel-indicators">
-    <button type="button" data-bs-target="#dashboardCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#dashboardCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#dashboardCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#dashboardCarousel" data-bs-slide-to="0" class="active bg-dark" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#dashboardCarousel" data-bs-slide-to="1" class="bg-dark" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#dashboardCarousel" data-bs-slide-to="2" class="bg-dark" aria-label="Slide 3"></button>
   </div>
-  <div class="carousel-inner rounded">
+
+  <div class="carousel-inner rounded shadow-sm">
     <!-- Slide 1: Total Inventory Value -->
     <div class="carousel-item active">
-      <div class="d-block w-100 p-5 bg-white shadow-sm rounded text-center text-dark">
+      <div class="d-block w-100 p-5 bg-white text-center text-dark">
         <h5 class="text-muted">Total Inventory Value</h5>
-        <p class="display-4 fw-bold" style="color: #962800;"><%= number_to_currency(@total_inventory_value) %></p>
+        <p class="display-4 fw-bold text-primary"><%= number_to_currency(@total_inventory_value) %></p>
         <p class="text-muted">Current valuation of all items in stock.</p>
       </div>
     </div>
+
     <!-- Slide 2: Key Metrics -->
     <div class="carousel-item">
-      <div class="d-block w-100 p-5 bg-white shadow-sm rounded text-center text-dark">
+      <div class="d-block w-100 p-5 bg-white text-center text-dark">
         <h5 class="text-muted">Key Performance Metrics</h5>
         <div class="row mt-4">
           <div class="col-md-6">
@@ -34,25 +37,27 @@
         </div>
       </div>
     </div>
-    <!-- Slide 3: Alerts & Activity -->
+
+    <!-- Slide 3: Operational Overview -->
     <div class="carousel-item">
-      <div class="d-block w-100 p-5 bg-white shadow-sm rounded text-center text-dark">
+      <div class="d-block w-100 p-5 bg-white text-center text-dark">
         <h5 class="text-muted">Operational Overview</h5>
         <div class="row mt-4">
           <div class="col-md-6">
             <p class="h4 fw-semibold">Low Stock Items</p>
             <p class="display-6"><%= @low_stock_items.try(:count) || 0 %></p>
-            <%# Consider adding a link: link_to "View Items", items_path(filter: "low_stock"), class: "btn btn-sm btn-outline-primary mt-2" %>
+            <%= link_to "View Items", items_path(filter: "low_stock"), class: "btn btn-sm btn-outline-primary mt-2" %>
           </div>
           <div class="col-md-6">
             <p class="h4 fw-semibold">Recent Transactions</p>
             <p class="display-6"><%= @recent_transactions.try(:count) || 0 %></p>
-            <%# Consider adding a link: link_to "View Transactions", transactions_path, class: "btn btn-sm btn-outline-primary mt-2" %>
+            <%= link_to "View Transactions", transactions_path, class: "btn btn-sm btn-outline-primary mt-2" %>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <button class="carousel-control-prev" type="button" data-bs-target="#dashboardCarousel" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
@@ -63,283 +68,33 @@
   </button>
 </div>
 
+<!-- KPI Cards Grid -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-  <!-- KPI Card: Total Inventory Value -->
-  <div class="bg-white overflow-hidden shadow rounded-lg">
-    <div class="px-4 py-5 sm:p-6">
-      <div class="flex items-center">
-        <div class="flex-shrink-0 bg-primary rounded-md p-3">
-          <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-        </div>
-        <div class="ml-5 w-0 flex-1">
-          <dl>
-            <dt class="text-sm font-medium text-gray-500 truncate">
-              Total Inventory Value
-            </dt>
-            <dd>
-              <div class="text-lg font-medium text-gray-900">
-                <%= number_to_currency(@total_inventory_value) %>
-              </div>
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Inventory Value -->
+  <%= render partial: "dashboard/kpi_card", locals: {
+    title: "Total Inventory Value",
+    icon: "currency-dollar",
+    icon_bg: "bg-primary",
+    value: number_to_currency(@total_inventory_value)
+  } %>
 
-  <!-- KPI Card: Inventory Turnover -->
-  <div class="bg-white overflow-hidden shadow rounded-lg">
-    <div class="px-4 py-5 sm:p-6">
-      <div class="flex items-center">
-        <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
-          <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
-          </svg>
-        </div>
-        <div class="ml-5 w-0 flex-1">
-          <dl>
-            <dt class="text-sm font-medium text-gray-500 truncate">
-              Inventory Turnover (30 days)
-            </dt>
-            <dd>
-              <div class="text-lg font-medium text-gray-900">
-                <%= @inventory_turnover %> times
-              </div>
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Inventory Turnover -->
+  <%= render partial: "dashboard/kpi_card", locals: {
+    title: "Inventory Turnover (30 days)",
+    icon: "refresh-cw",
+    icon_bg: "bg-green-500",
+    value: "#{@inventory_turnover} times"
+  } %>
 
-  <!-- KPI Card: Order Cycle Time -->
-  <div class="bg-white overflow-hidden shadow rounded-lg">
-    <div class="px-4 py-5 sm:p-6">
-      <div class="flex items-center">
-        <div class="flex-shrink-0 bg-primary rounded-md p-3">
-          <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-        </div>
-        <div class="ml-5 w-0 flex-1">
-          <dl>
-            <dt class="text-sm font-medium text-gray-500 truncate">
-              Avg. Order Cycle Time
-            </dt>
-            <dd>
-              <div class="text-lg font-medium text-gray-900">
-                <%= @order_cycle_time %> days
-              </div>
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Order Cycle Time -->
+  <%= render partial: "dashboard/kpi_card", locals: {
+    title: "Avg. Order Cycle Time",
+    icon: "clock",
+    icon_bg: "bg-primary",
+    value: "#{@order_cycle_time} days"
+  } %>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-  <!-- Items that need to be reordered -->
-  <div class="bg-white shadow rounded-lg">
-    <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
-      <h3 class="text-lg leading-6 font-medium text-gray-900">
-        Low Stock Items
-      </h3>
-    </div>
-    <div class="p-4 max-h-80 overflow-y-auto">
-      <% if @low_stock_items.any? %>
-        <div class="flow-root">
-          <ul class="-my-5 divide-y divide-gray-200">
-            <% @low_stock_items.each do |low_stock_entry| %>
-              <li class="py-4">
-                <div class="flex items-center space-x-4">
-                  <div class="flex-shrink-0">
-                    <span class="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
-                      <svg class="h-full w-full text-gray-400" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20 7l-8-4-8 4m16 0v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                      </svg>
-                    </span>
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 truncate">
-                      <%= low_stock_entry.item.name %>
-                    </p>
-                    <p class="text-sm text-gray-500 truncate">
-                      <%= low_stock_entry.item.code %> | <%= low_stock_entry.category_name %>
-                    </p>
-                  </div>
-                  <div>
-                    <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">
-                      Stock: <%= low_stock_entry.current_quantity %>/<%= low_stock_entry.reorder_point %>
-                    </span>
-                  </div>
-                </div>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="mt-6">
-          <%= link_to "View all", "#", class: "w-full flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
-        </div>
-      <% else %>
-        <div class="text-center py-4">
-          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <h3 class="mt-2 text-sm font-medium text-gray-900">No low stock items</h3>
-          <p class="mt-1 text-sm text-gray-500">
-            All inventory items are above their reorder points.
-          </p>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <!-- Recent transactions -->
-  <div class="bg-white shadow rounded-lg">
-    <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
-      <h3 class="text-lg leading-6 font-medium text-gray-900">
-        Recent Transactions
-      </h3>
-    </div>
-    <div class="p-4 max-h-80 overflow-y-auto">
-      <% if @recent_transactions.any? %>
-        <div class="flow-root">
-          <ul class="-my-5 divide-y divide-gray-200">
-            <% @recent_transactions.each do |receipt| %>
-              <li class="py-4">
-                <div class="flex items-center space-x-4">
-                  <div class="flex-shrink-0">
-                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-green-100">
-                      <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
-                      </svg>
-                    </span>
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 truncate">
-                      Receipt #<%= receipt.receipt_number %>
-                    </p>
-                    <p class="text-sm text-gray-500 truncate">
-                      <%= receipt.vendor.name %> | <%= receipt.receipt_date&.strftime('%b %d, %Y') %>
-                    </p>
-                  </div>
-                  <div>
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      <%= number_to_currency(receipt.total_amount) %>
-                    </span>
-                  </div>
-                </div>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="mt-6">
-          <%= link_to "View all", transactions_path, class: "w-full flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
-        </div>
-      <% else %>
-        <div class="text-center py-4">
-          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
-          </svg>
-          <h3 class="mt-2 text-sm font-medium text-gray-900">No recent transactions</h3>
-          <p class="mt-1 text-sm text-gray-500">
-            Get started by creating a new receipt.
-          </p>
-          <%= link_to "New Receipt", new_receipt_path, class: "mt-6 btn btn-primary" %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
-
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-  <!-- Pending Orders -->
-  <div class="bg-white shadow rounded-lg">
-    <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
-      <h3 class="text-lg leading-6 font-medium text-gray-900">
-        Pending Orders
-      </h3>
-    </div>
-    <div class="p-4 max-h-80 overflow-y-auto">
-      <% if @pending_orders.any? %>
-        <div class="flow-root">
-          <ul class="-my-5 divide-y divide-gray-200">
-            <% @pending_orders.each do |order| %>
-              <li class="py-4">
-                <div class="flex items-center space-x-4">
-                  <div class="flex-shrink-0">
-                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-yellow-100">
-                      <svg class="h-5 w-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                      </svg>
-                    </span>
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 truncate">
-                      Order #<%= order.order_number %>
-                    </p>
-                    <p class="text-sm text-gray-500 truncate">
-                      <%= order.vendor.name %> | <%= order.order_date&.strftime('%b %d, %Y') %>
-                    </p>
-                  </div>
-                  <div>
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                      <%= number_to_currency(order.total_amount) %>
-                    </span>
-                  </div>
-                </div>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="mt-6">
-          <%= link_to "View all", orders_path(status: 'pending'), class: "w-full flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
-        </div>
-      <% else %>
-        <div class="text-center py-4">
-          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <h3 class="mt-2 text-sm font-medium text-gray-900">No pending orders</h3>
-          <p class="mt-1 text-sm text-gray-500">
-            All orders have been processed.
-          </p>
-          <%= link_to "New Order", new_order_path, class: "mt-6 btn btn-primary" %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <!-- Inventory by Category Chart -->
-  <div class="bg-white shadow rounded-lg">
-    <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
-      <h3 class="text-lg leading-6 font-medium text-gray-900">
-        Inventory Value by Category
-      </h3>
-    </div>
-    <div class="p-4 h-80">
-      <%# The colors for charts can be updated here if needed, or by setting Chartkick.options %>
-      <%= pie_chart @inventory_by_category, donut: true, colors: ['#962800', "#7C3AED", "#EC4899", "#F59E0B", "#10B981", "#3B82F6", "#6366F1"] %>
-    </div>
-  </div>
-</div>
-
-<div class="mt-6">
-  <div class="bg-white shadow rounded-lg">
-    <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
-      <h3 class="text-lg leading-6 font-medium text-gray-900">
-        Transaction History
-      </h3>
-    </div>
-    <div class="p-4 h-96">
-      <%# The colors for charts can be updated here if needed, or by setting Chartkick.options %>
-      <%= column_chart [
-        {name: "Incoming", data: @transactions_history[:labels].zip(@transactions_history[:incoming]).to_h},
-        {name: "Outgoing", data: @transactions_history[:labels].zip(@transactions_history[:outgoing].map(&:-@)).to_h}
-      ], stacked: true, colors: ["#10B981", '#962800'] %>
-    </div>
-  </div>
-</div>
+<!-- Reusable sections remain unchanged -->
+<%= render partial: "dashboard/low_stock_items", locals: { items: @low_stock_items } %>
+<%# <%= render partial: "dashboard/recent_transactions", locals: { transactions: @recent_transactions } %> %>
