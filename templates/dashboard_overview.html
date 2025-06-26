@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Kiosk - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_styles.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Le Kiosk Admin</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('home') }}" class="nav-item"><i class="fas fa-home"></i> View Homepage</a>
+            <a href="{{ url_for('dashboard') }}" class="nav-item active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="#products-section" class="nav-item"><i class="fas fa-box-open"></i> Products</a>
+            <a href="#sales-section" class="nav-item"><i class="fas fa-chart-line"></i> Sales</a>
+            <a href="#inventory-section" class="nav-item"><i class="fas fa-warehouse"></i> Inventory</a>
+            <a href="{{ url_for('add_product_form') }}" class="nav-item"><i class="fas fa-plus-circle"></i> Add Product</a>
+            <a href="{{ url_for('add_sale_form') }}" class="nav-item"><i class="fas fa-cart-plus"></i> Record Sale</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <header class="dashboard-header">
+            <h1>Dashboard Overview</h1>
+            <div class="header-actions">
+                <a href="{{ url_for('add_product_form') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Add Product</a>
+                <a href="{{ url_for('add_sale_form') }}" class="btn btn-secondary"><i class="fas fa-dollar-sign"></i> Record Sale</a>
+            </div>
+        </header>
+
+        <section class="dashboard-metrics">
+            <div class="metric-card">
+                <h4>Total Products</h4>
+                <p>{{ products|length }}</p>
+                <i class="fas fa-boxes card-icon"></i>
+            </div>
+            <div class="metric-card">
+                <h4>Total Sales Recorded</h4>
+                <p>{{ sales|length }}</p>
+                <i class="fas fa-chart-bar card-icon"></i>
+            </div>
+            <div class="metric-card">
+                <h4>Items Low in Stock (<10)</h4>
+                <p>{{ inventory|selectattr('stock_on_hand', 'lt', 10)|list|length }}</p>
+                 <i class="fas fa-exclamation-triangle card-icon low-stock"></i>
+            </div>
+            <div class="metric-card">
+                <h4>Total Stock Value (Approx)</h4>
+                <p>${{ "%.2f"|format(inventory|sum(attribute='stock_on_hand') * products[0].price if products and inventory else 0) }}</p> {# Simplified calculation #}
+                <i class="fas fa-coins card-icon"></i>
+            </div>
+        </section>
+
+        <section id="inventory-section" class="data-section">
+            <h2><i class="fas fa-warehouse"></i> Current Inventory (Stock on Hand)</h2>
+            {% if inventory %}
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Initial Stock</th>
+                                <th>Sold</th>
+                                <th>Stock on Hand</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in inventory %}
+                                <tr>
+                                    <td>{{ item.product_id }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>${{ "%.2f"|format(item.price) }}</td>
+                                    <td>{{ item.initial_stock }}</td>
+                                    <td>{{ item.total_sold }}</td>
+                                    <td class="stock-level-{{ 'high' if item.stock_on_hand > 10 else ('low' if item.stock_on_hand > 0 else 'out') }}">
+                                        {{ item.stock_on_hand }}
+                                    </td>
+                                    <td>
+                                        {% if item.stock_on_hand > 10 %} <span class="status-badge status-ok">Good</span>
+                                        {% elif item.stock_on_hand > 0 %} <span class="status-badge status-warning">Low</span>
+                                        {% else %} <span class="status-badge status-danger">Out of Stock</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="empty-state">No inventory data available. Try adding products and sales.</p>
+            {% endif %}
+        </section>
+
+        <section id="products-section" class="data-section">
+            <h2><i class="fas fa-box-open"></i> Product List</h2>
+            {% if products %}
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Category</th>
+                                <th>Supplier</th>
+                                <!--<th>Actions</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                                <tr>
+                                    <td>{{ product.product_id }}</td>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.description or 'N/A' }}</td>
+                                    <td>${{ "%.2f"|format(product.price) }}</td>
+                                    <td>{{ product.category or 'N/A' }}</td>
+                                    <td>{{ product.supplier or 'N/A' }}</td>
+                                    <!--<td><a href="#" class="btn-action btn-edit"><i class="fas fa-edit"></i></a> <a href="#" class="btn-action btn-delete"><i class="fas fa-trash"></i></a></td>-->
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="empty-state">No products found. <a href="{{ url_for('add_product_form') }}">Add one now!</a></p>
+            {% endif %}
+        </section>
+
+        <section id="sales-section" class="data-section">
+            <h2><i class="fas fa-chart-line"></i> Recent Sales</h2>
+            {% if sales %}
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sale ID</th>
+                                <th>Product Name</th>
+                                <th>Qty Sold</th>
+                                <th>Price at Sale</th>
+                                <th>Sale Date</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sale in sales %}
+                                <tr>
+                                    <td>{{ sale.sale_id }}</td>
+                                    <td>{{ sale.product_name }}</td>
+                                    <td>{{ sale.quantity_sold }}</td>
+                                    <td>${{ "%.2f"|format(sale.price_at_sale) }}</td>
+                                    <td>{{ sale.sale_date.strftime('%Y-%m-%d %H:%M') if sale.sale_date else sale.sale_date }}</td>
+                                    <td>${{ "%.2f"|format(sale.quantity_sold * sale.price_at_sale) }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="empty-state">No sales recorded yet. <a href="{{ url_for('add_sale_form') }}">Record a sale!</a></p>
+            {% endif %}
+        </section>
+    </div>
+    <script>
+        // Simple smooth scroll for sidebar links
+        document.querySelectorAll('.sidebar-nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Optional: highlight active link
+                document.querySelectorAll('.sidebar-nav a').forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

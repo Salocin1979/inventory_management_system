@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Kiosk - Frais. Local. Authentique.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage_styles.css') }}">
+</head>
+<body>
+    <header class="hero-section">
+        <nav class="navbar">
+            <div class="logo">
+                <!-- Placeholder for a more stylized logo -->
+                <a href="#">Le Kiosk</a>
+            </div>
+            <ul>
+                <li><a href="#concept">Our Concept</a></li>
+                <li><a href="#menu">Menu Highlights</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="{{ url_for('dashboard') }}" class="dashboard-link">Inventory Dashboard</a></li>
+            </ul>
+        </nav>
+        <div class="hero-content">
+            <h1>Le Kiosk</h1>
+            <p class="slogan">Frais. Local. Authentique.</p>
+            <a href="#menu" class="cta-button">Discover Our Menu</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="concept" class="content-section">
+            <div class="container">
+                <h2>Our Concept</h2>
+                <div class="concept-details">
+                    <div class="concept-text">
+                        <p>Nestled in the heart of Ruisseau Créole in the coastal region of Rivière Noire, Le Kiosk is a contemporary tropical eatery celebrating the vibrant flavors of Mauritius. Our concept blends casual sophistication with a strong commitment to fresh, local, and authentic cuisine.</p>
+                        <p>We specialize in fresh, seasonal dishes inspired by Mauritian Creole cuisine, French-inspired bistro fare, and light Mediterranean influences. Our menu highlights locally sourced seafood and meats, garden-fresh vegetables, and house-made sauces and dressings. We proudly offer vegetarian and gluten-free options, with signature dishes rotating to celebrate the best of each season.</p>
+                        <p>The vibe at Le Kiosk is tropical & contemporary, casual yet refined – ideal for long lunches, sunset apéros, or relaxed dinners. Surrounded by palm trees and open air, our space features natural wood, woven textures, and soft lighting, all complemented by chilled, curated music to create a laid-back island-luxe feel.</p>
+                    </div>
+                    <div class="concept-image">
+                        <!-- Placeholder image - replace with an actual image of the restaurant or its ambiance -->
+                        <img src="https://via.placeholder.com/500x350.png?text=Tropical+Eatery+Ambiance" alt="Le Kiosk Ambiance">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="menu" class="content-section alt-bg">
+            <div class="container">
+                <h2>Menu Highlights</h2>
+                <p class="section-intro">A taste of what we offer, focusing on seasonal and local ingredients.</p>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <!-- Placeholder image -->
+                        <img src="https://via.placeholder.com/400x300.png?text=Fresh+Seafood+Dish" alt="Seafood Special">
+                        <h3>Locally Sourced Seafood</h3>
+                        <p>Grilled catch of the day, served with seasonal vegetables and a citrus beurre blanc.</p>
+                    </div>
+                    <div class="menu-item">
+                        <!-- Placeholder image -->
+                        <img src="https://via.placeholder.com/400x300.png?text=Creole+Inspired+Plate" alt="Creole Classic">
+                        <h3>Creole Chicken Rougaille</h3>
+                        <p>Aromatic and flavorful, our traditional chicken rougaille with tomato, thyme, and spices.</p>
+                    </div>
+                    <div class="menu-item">
+                        <!-- Placeholder image -->
+                        <img src="https://via.placeholder.com/400x300.png?text=Vibrant+Island+Salad" alt="Fresh Salad">
+                        <h3>Tropical Garden Salad</h3>
+                        <p>A mix of exotic fruits, crisp greens, and palm hearts, drizzled with passion fruit vinaigrette.</p>
+                    </div>
+                     <div class="menu-item">
+                        <!-- Placeholder image -->
+                        <img src="https://via.placeholder.com/400x300.png?text=Artisanal+Dessert" alt="Artisanal Dessert">
+                        <h3>Coconut & Lime Tart</h3>
+                        <p>A refreshing and zesty tart with a crispy base, perfect for a tropical afternoon.</p>
+                    </div>
+                </div>
+                <div class="menu-cta">
+                    <a href="#" class="cta-button-secondary">View Full Menu (PDF)</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="content-section">
+            <div class="container">
+                <h2>Gallery</h2>
+                <p class="section-intro">Experience the essence of Le Kiosk.</p>
+                <div class="gallery-grid">
+                    <!-- Placeholder images - replace with actual photos -->
+                    <img src="https://via.placeholder.com/300x200.png?text=Le+Kiosk+Setting+1" alt="Gallery Image 1">
+                    <img src="https://via.placeholder.com/300x200.png?text=Le+Kiosk+Dish+1" alt="Gallery Image 2">
+                    <img src="https://via.placeholder.com/300x200.png?text=Le+Kiosk+Ambiance+2" alt="Gallery Image 3">
+                    <img src="https://via.placeholder.com/300x200.png?text=Le+Kiosk+Details" alt="Gallery Image 4">
+                    <img src="https://via.placeholder.com/300x200.png?text=Tropical+Decor" alt="Gallery Image 5">
+                    <img src="https://via.placeholder.com/300x200.png?text=Happy+Customers" alt="Gallery Image 6">
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="content-section alt-bg">
+            <div class="container">
+                <h2>Get In Touch</h2>
+                <div class="contact-info">
+                    <div class="contact-details">
+                        <p><strong>Address:</strong> Ruisseau Créole, Rivière Noire, Mauritius</p>
+                        <p><strong>Phone:</strong> +230 123 4567 (Placeholder)</p>
+                        <p><strong>Email:</strong> info@lekiosk.mu (Placeholder)</p>
+                        <p><strong>Opening Hours:</strong><br>
+                            Monday - Saturday: 11:00 AM - 10:00 PM<br>
+                            Sunday: 11:00 AM - 4:00 PM
+                        </p>
+                    </div>
+                    <div class="contact-form">
+                        <h3>Send us a message</h3>
+                        <form action="#">
+                            <input type="text" name="name" placeholder="Your Name" required>
+                            <input type="email" name="email" placeholder="Your Email" required>
+                            <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                            <button type="submit" class="cta-button">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+                 <div class="map-placeholder">
+                    <!-- Placeholder for an embedded map -->
+                    <img src="https://via.placeholder.com/800x300.png?text=Map+to+Le+Kiosk+(Ruisseau+Créole)" alt="Map to Le Kiosk">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <p>Le Kiosk</p>
+                    <p class="slogan-footer">Frais. Local. Authentique.</p>
+                </div>
+                <div class="social-links">
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">TripAdvisor</a>
+                </div>
+            </div>
+            <p class="copyright">&copy; 2024 Le Kiosk. All Rights Reserved. Designed by Jules AI.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
