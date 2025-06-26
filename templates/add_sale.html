@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Sale</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Le Kiosk Admin</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('home') }}" class="nav-item"><i class="fas fa-home"></i> View Homepage</a>
+            <a href="{{ url_for('dashboard') }}" class="nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="{{ url_for('dashboard') }}#products-section" class="nav-item"><i class="fas fa-box-open"></i> Products</a>
+            <a href="{{ url_for('dashboard') }}#sales-section" class="nav-item"><i class="fas fa-chart-line"></i> Sales</a>
+            <a href="{{ url_for('dashboard') }}#inventory-section" class="nav-item"><i class="fas fa-warehouse"></i> Inventory</a>
+            <a href="{{ url_for('add_product_form') }}" class="nav-item"><i class="fas fa-plus-circle"></i> Add Product</a>
+            <a href="{{ url_for('add_sale_form') }}" class="nav-item active"><i class="fas fa-cart-plus"></i> Record Sale</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="form-container">
+            <h1><i class="fas fa-cart-plus"></i> Record New Sale</h1>
+            {% if error %} <!-- Assuming error variable is passed from Flask for stock issues -->
+                <p style="color: #e74c3c; background-color: #fdd; border: 1px solid #e74c3c; padding: 10px; border-radius: 5px; margin-bottom:15px;">{{ error }}</p>
+            {% endif %}
+            <form method="POST">
+                <label for="product_id">Product:</label>
+                <select id="product_id" name="product_id" required>
+                    <option value="">Select a product</option>
+                    {% for product in products %}
+                        <option value="{{ product.product_id }}">{{ product.name }} (Price: ${{ "%.2f"|format(product.price) }})</option>
+                    {% endfor %}
+                </select>
+
+                <label for="quantity_sold">Quantity Sold:</label>
+                <input type="number" id="quantity_sold" name="quantity_sold" required min="1">
+
+                <div class="form-actions">
+                    <input type="submit" value="Record Sale" class="btn-submit" style="background-color: var(--secondary-color);">
+                     <a href="{{ url_for('dashboard') }}" style="margin-left: 15px;">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
