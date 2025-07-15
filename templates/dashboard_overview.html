@@ -21,17 +21,28 @@
             <a href="#inventory-section" class="nav-item"><i class="fas fa-warehouse"></i> Inventory</a>
             <a href="{{ url_for('add_product_form') }}" class="nav-item"><i class="fas fa-plus-circle"></i> Add Product</a>
             <a href="{{ url_for('add_sale_form') }}" class="nav-item"><i class="fas fa-cart-plus"></i> Record Sale</a>
+            <a href="{{ url_for('logout') }}" class="nav-item logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </nav>
     </div>
 
     <div class="main-content">
         <header class="dashboard-header">
             <h1>Dashboard Overview</h1>
-            <div class="header-actions">
-                <a href="{{ url_for('add_product_form') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Add Product</a>
-                <a href="{{ url_for('add_sale_form') }}" class="btn btn-secondary"><i class="fas fa-dollar-sign"></i> Record Sale</a>
+            <div class="header-user">
+                <span>Welcome, <strong>{{ current_user.username }}</strong>!</span>
             </div>
         </header>
+
+        {# Flash messages for login success, new product/sale, etc. #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages-container">
+                {% for category, message in messages %}
+                    <div class="flash-message-dashboard {{ category }}">{{ message }}</div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
 
         <section class="dashboard-metrics">
             <div class="metric-card">
@@ -45,13 +56,13 @@
                 <i class="fas fa-chart-bar card-icon"></i>
             </div>
             <div class="metric-card">
-                <h4>Items Low in Stock (<10)</h4>
+                <h4>Items Low in Stock (&lt;10)</h4>
                 <p>{{ inventory|selectattr('stock_on_hand', 'lt', 10)|list|length }}</p>
                  <i class="fas fa-exclamation-triangle card-icon low-stock"></i>
             </div>
             <div class="metric-card">
-                <h4>Total Stock Value (Approx)</h4>
-                <p>${{ "%.2f"|format(inventory|sum(attribute='stock_on_hand') * products[0].price if products and inventory else 0) }}</p> {# Simplified calculation #}
+                <h4>Total Stock Value</h4>
+                <p>${{ "%.2f"|format(total_stock_value) }}</p>
                 <i class="fas fa-coins card-icon"></i>
             </div>
         </section>
