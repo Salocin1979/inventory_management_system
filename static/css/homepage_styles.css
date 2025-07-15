@@ -135,8 +135,12 @@ a:hover {
 
 /* --- Hero Section --- */
 .hero-section {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://via.placeholder.com/1920x1080.png?text=Lush+Tropical+Background') no-repeat center center/cover;
-    /* Replace placeholder with an actual high-quality image */
+    /* The background image is now set directly in homepage.html for easier editing. */
+    /* background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('...') no-repeat center center/cover; */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative; /* Needed for the overlay */
     height: 100vh;
     display: flex;
     flex-direction: column; /* To stack navbar and hero-content */

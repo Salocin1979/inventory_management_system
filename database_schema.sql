@@ -55,3 +55,16 @@ INSERT INTO sales (product_id, quantity_sold, price_at_sale) VALUES
 (2, 5, 9.50),  -- Sold 5 Island Breeze Salads
 (1, 3, 15.00),  -- Sold another 3 Tuna Steaks
 (3, 4, 12.75); -- Sold 4 Creole Chicken Curries
+
+-- Users Table
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL
+);
+
+-- Insert a default user. IMPORTANT: The password is 'admin'.
+-- The hash is generated using Werkzeug's generate_password_hash('admin').
+-- If you change the password, you must generate a new hash.
+INSERT INTO users (username, password_hash) VALUES
+('admin', 'pbkdf2:sha256:600000$DmUv7g3E0kE0a2l1$8f542d4a7f28452b485303a7498c45f448e8979c3132d4a27546e5a6f2360f25');

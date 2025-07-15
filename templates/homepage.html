@@ -8,7 +8,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage_styles.css') }}">
 </head>
 <body>
-    <header class="hero-section">
+    <!--
+    GUIDE DE PERSONNALISATION:
+    Pour changer l'image principale, modifiez le style 'background-image' ci-dessous.
+    Remplacez 'https://via.placeholder.com/1920x1080...' par l'URL de votre propre image.
+    -->
+    <header class="hero-section" style="background-image: url('https://via.placeholder.com/1920x1080.png?text=Lush+Tropical+Background');">
         <nav class="navbar">
             <div class="logo">
                 <!-- Placeholder for a more stylized logo -->
@@ -19,7 +24,7 @@
                 <li><a href="#menu">Menu Highlights</a></li>
                 <li><a href="#gallery">Gallery</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="{{ url_for('dashboard') }}" class="dashboard-link">Inventory Dashboard</a></li>
+                <li><a href="{{ url_for('dashboard') }}" class="dashboard-link">Admin Dashboard</a></li>
             </ul>
         </nav>
         <div class="hero-content">

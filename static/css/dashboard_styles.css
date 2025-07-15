@@ -76,6 +76,14 @@ body {
     border-left: 3px solid var(--accent-color);
     padding-left: 22px; /* Adjust for border */
 }
+.sidebar-nav .logout-link {
+    margin-top: 20px;
+    border-top: 1px solid #4a6278;
+}
+.sidebar-nav .logout-link:hover {
+    background-color: #c0392b; /* Red for logout */
+}
+
 
 /* --- Main Content Area --- */
 .main-content {
